@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Windows Notification Sample</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        $(function() {
+            function notifyMe(message) {
+                if (!("Notification" in window)) {
+                    alert("This browser does not support desktop notification");
+                } else if (Notification.permission === "granted") {
+                    var data = []
+                        data['title'] = "Notification Alert";
+                        data['body'] = message;
+                        var notification = new Notification(data['title'], {
+                            'body': data['body']
+                        });
+                    notification.onclick = function (event) {
+                        window.open(window.location.href = '/Home.html', '_blank');
+                    }
+                } else if (Notification.permission !== "denied") {
+                    Notification.requestPermission().then(function (permission) {
+                        if (permission === "granted") {
+                            var notification = new Notification("Permission granted");
+                        }
+                    });
+                }
+            }
+
+            setInterval(function(){ 
+                notifyMe('Sample Notification message'); 
+            }, 5000);
+
+        });
+        
+    </script>
+</head>
+<body>
+
+<h1>This is a Windows Notification Sample</h1>
+<p>You need to use https for this one to work.</p>
+
+</body>
+</html>
